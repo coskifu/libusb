@@ -11,12 +11,13 @@ OPENBSD_USB_SRC = os/openbsd_usb.c
 NETBSD_USB_SRC = os/netbsd_usb.c
 COMMON_WINDOWS_SRC = os/poll_windows.c os/windows_nt_common.c libusb-1.0.rc libusb-1.0.def
 WINDOWS_USB_SRC = os/windows_usb.c $(COMMON_WINDOWS_SRC)
+WINDOWS_USBDK_SRC = os/windows_usbdk.c $(COMMON_WINDOWS_SRC)
 WINCE_USB_SRC = os/wince_usb.c os/wince_usb.h
 
 DIST_SUBDIRS = 
 
 EXTRA_DIST = $(LINUX_USBFS_SRC) $(DARWIN_USB_SRC) $(OPENBSD_USB_SRC) \
-	$(NETBSD_USB_SRC) $(WINDOWS_USB_SRC) $(WINCE_USB_SRC) \
+	$(NETBSD_USB_SRC) $(WINDOWS_USB_SRC) $(WINDOWS_USBDK_SRC) $(WINCE_USB_SRC) \
 	$(POSIX_POLL_SRC) \
 	os/threads_posix.c os/threads_windows.c \
 	os/linux_udev.c os/linux_netlink.c
@@ -55,7 +56,12 @@ SUBDIRS = os/haiku
 endif
 
 if OS_WINDOWS
+
+if USE_USBDK
+OS_SRC = $(WINDOWS_USBDK_SRC)
+else
 OS_SRC = $(WINDOWS_USB_SRC)
+endif
 
 .rc.lo:
 	$(AM_V_GEN)$(LIBTOOL) $(AM_V_lt) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --tag=RC --mode=compile $(RC) $(RCFLAGS) -i $< -o $@
@@ -79,7 +85,7 @@ libusb_1_0_la_CFLAGS = $(AM_CFLAGS)
 libusb_1_0_la_LDFLAGS = $(LTLDFLAGS)
 libusb_1_0_la_SOURCES = libusbi.h core.c descriptor.c io.c strerror.c sync.c \
 	os/linux_usbfs.h os/darwin_usb.h os/windows_usb.h os/windows_common.h \
-	os/windows_nt_common.h hotplug.h hotplug.c \
+	os/windows_nt_common.h os/windows_usbdk.h hotplug.h hotplug.c \
         $(THREADS_SRC) $(OS_SRC) \
 	os/poll_posix.h os/poll_windows.h
 
