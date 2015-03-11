@@ -10,7 +10,7 @@ DARWIN_USB_SRC = os/darwin_usb.c
 OPENBSD_USB_SRC = os/openbsd_usb.c
 NETBSD_USB_SRC = os/netbsd_usb.c
 COMMON_WINDOWS_SRC = os/poll_windows.c os/windows_nt_common.c libusb-1.0.rc libusb-1.0.def
-WINDOWS_USB_SRC = os/windows_usb.c $(COMMON_WINDOWS_SRC)
+WINDOWS_USB_SRC = os/windows_winusb.c $(COMMON_WINDOWS_SRC)
 WINCE_USB_SRC = os/wince_usb.c os/wince_usb.h
 
 DIST_SUBDIRS = 
@@ -79,7 +79,7 @@ endif
 libusb_1_0_la_CFLAGS = $(AM_CFLAGS)
 libusb_1_0_la_LDFLAGS = $(LTLDFLAGS)
 libusb_1_0_la_SOURCES = libusbi.h core.c descriptor.c io.c strerror.c sync.c \
-	os/linux_usbfs.h os/darwin_usb.h os/windows_usb.h os/windows_common.h \
+	os/linux_usbfs.h os/darwin_usb.h os/windows_winusb.h os/windows_common.h \
 	os/windows_nt_common.h hotplug.h hotplug.c \
         $(THREADS_SRC) $(OS_SRC) \
 	os/poll_posix.h os/poll_windows.h
